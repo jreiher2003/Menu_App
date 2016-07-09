@@ -1,4 +1,8 @@
 *.pyc 
+app/*.pyc
+app/*/*.pyc
+tests/*.pyc
+config.pyc
 *.db
 venv/
 *.bat

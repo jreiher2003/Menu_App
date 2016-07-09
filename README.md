@@ -1,5 +1,5 @@
 ## Menu App
-[![Build Status](https://travis-ci.org/jreiher2003/Menu-App-Pro.svg?branch=master)](https://travis-ci.org/jreiher2003/Menu-App-Pro)
+[![Build Status](https://travis-ci.org/jreiher2003/Menu_App.svg?branch=master)](https://travis-ci.org/jreiher2003/Menu_App)
 ##### Udacity's menu app project 
 ____
 

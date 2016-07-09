@@ -5,9 +5,9 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SECRET_KEY = os.environ['SECRET_KEY']
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-    # SECURITY_REGISTERABLE = True
-    # SECURITY_PASSWORD_HASH = "bcrypt"
-    # SECURITY_PASSWORD_SALT = b"test"
+    SECURITY_REGISTERABLE = True
+    SECURITY_PASSWORD_HASH = "bcrypt"
+    SECURITY_PASSWORD_SALT = b"test"
     # RECAPTCHA_PUBLIC_KEY = '6LeYIbsSAAAAACRPIllxA7wvXjIE411PfdB2gt2J'
     # RECAPTCHA_PRIVATE_KEY = '6LeYIbsSAAAAAJezaIq3Ft_hSTo0YtyeFG-JgRtu'
     # RECAPTCHA_PARAMETERS = {'hl': 'zh', 'render': 'explicit'}
@@ -16,9 +16,9 @@ class BaseConfig(object):
 
 class TestConfig(BaseConfig):
     DEBUG = True
-    # LOGIN_DISABLED = True
+    LOGIN_DISABLED = True
     TESTING = True
-    # PRESERVE_CONTEXT_ON_EXCEPTION = False
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
     # MAIL_SUPPRESS_SEND = False
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'

@@ -1,6 +1,6 @@
 import unittest 
 from base import BaseTestCase 
-from flask.ext.login import current_user
+from flask_login import current_user
 from app.models import User
 from app import bcrypt
 

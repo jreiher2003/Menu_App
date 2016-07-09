@@ -1,5 +1,5 @@
 from flask.ext.testing import TestCase
-from app import app, db
+from app import app, db, bcrypt
 from app.models import Place, Menu, User
 
 

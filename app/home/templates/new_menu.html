@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Add new menu item{% endblock %}
+{% block content %}
+add new menu item template {{ place_id }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="">
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="name">
+                </div>
+
+                <div class="form-group">
+                    <!-- <label for="course">Course</label><br> -->
+                  <label>Course</label><br>
+                    <input type="radio" name="course" value="Appetizer">
+                    Appetizer<br>
+                    <input type="radio" name="course" value="Entree">
+                    Entree<br>
+                    <input type="radio" name="course" value="Dessert">
+                    Dessert<br>
+                    <input type="radio" name="course" value="Beverage">
+                    Beverage<br>
+                  
+        
+               </div>
+
+                
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description" name="description" placeholder="description">
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="text" class="form-control" id="price" name="price" placeholder="price"
+                    >
+                </div>
+                <input type="submit" value="Add">
+                <a href="{{ url_for('home.show_menu', place_id=place_id) }}">cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

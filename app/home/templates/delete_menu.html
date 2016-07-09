@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}delete menu item{% endblock %}
+{% block content %}
+delete menu item template {{ place_id }}{{ menu_id }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Delete {{ delete_menu.name }}?</h1>
+            <form method="post" action="">
+                <input type="submit" value="delete">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

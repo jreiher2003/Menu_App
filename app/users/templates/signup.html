@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Account Sign Up</h3>
+<form method="post" action="/signup">
+    {{ form.csrf_token }}
+    {{ form.username(placeholder="username") }}
+    {% if form.username.errors %}
+        {% for error in form.username.errors %}
+            {{ error }}
+        {% endfor %}
+    {% endif %}
+
+    {{ form.email(placeholder="email") }}
+    {% if form.email.errors %}
+        {% for error in form.email.errors %}
+            {{ error }}
+        {% endfor %}
+    {% endif %}
+
+    {{ form.avatar(placeholder="avatar") }}
+    {% if form.avatar.errors %}
+        {% for error in form.avatar.errors %}
+            {{ error }}
+        {% endfor %}
+    {% endif %}
+
+    {{ form.password(placeholder="password") }}
+    {% if form.password.errors %}
+        {% for error in form.password.errors %}
+            {{ error }}
+        {% endfor %}
+    {% endif %}
+
+    {{ form.confirm(placeholder="repeat password") }}
+    {% if form.confirm.errors %}
+        {% for error in form.confirm.errors %}
+            {{ error }}
+        {% endfor %}
+    {% endif %}
+
+    {{ form.accept_tos }}
+
+    {% if form.accept_tos.errors %}
+        {% for error in form.accept_tos.errors %}
+            {{ error }}
+        {% endfor %}
+    {% endif %}
+    <input type="submit">
+</form>
+<br>
+<br>
+<br>
+{% endblock %}

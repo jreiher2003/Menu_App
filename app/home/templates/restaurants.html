@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Englewood Grub{% endblock %}
+{% block description %}{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('home.new_place') }}">Create New Restauarnt</a><br><br>
+
+
+<div class="container">
+    <div class="row">
+        {% for place in all_places %}
+        <div class="col-md-3 ">
+            <div class="thumbnail">
+                <div class="row ">
+                    <div class="col-md-4 pull-right">
+                        <a href="{{ url_for('home.edit_place',place_id=place.id) }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>&nbsp;|
+                        <a href="{{ url_for('home.delete_place',place_id=place.id) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="text-center"><a href="{{ url_for('home.show_menu', place_id=place.id) }}">{{ place.name }}</a></h4>
+                    </div>
+                </div>
+                <div class="caption">
+                    <!-- <p><a href="{{ url_for('home.show_menu', place_id=place.id) }}">{{ place.name }}</a></p> -->
+                    <address>
+                        {{ place.address }}<br>
+                        {{ place.city }},&nbsp;{{ place.state }}&nbsp;{{ place.zip_ }}<br>
+                        <abbr title="Phone">P:</abbr>{{ place.phone }}
+                    </address>
+                        <a href="#">{{ place.website }}</a><br>
+                        owner: <span class="text-muted">{{ place.owner }}</span><br>
+                        years open: <apan class="text-muted">{{ place.yrs_open }}</span><br>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

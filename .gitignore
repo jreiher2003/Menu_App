@@ -1,0 +1,9 @@
+*.pyc 
+*.db
+venv/
+*.bat
+coverage/
+*.log
+requirements1.txt
+client_secrets.json
+

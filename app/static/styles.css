@@ -1,0 +1,9 @@
+html {}
+body {}
+ a {
+    color: #777;
+ }
+.footer {
+    height: 200px;
+    background-color: #777;
+}

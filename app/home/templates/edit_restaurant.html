@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Edit Restaurant{% endblock %}
+{% block content %}
+edit restaurant template {{ place_id }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Edit restaurant profile</h1>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="place">Name</label>
+                    <input type="text" class="form-control" name="name" value="{{ edit_rest.name }}">
+                </div>
+
+                 <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" value="{{ edit_rest.address }}">
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" name="city" value="{{ edit_rest.city }}">
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" id="state" name="state" value="{{ edit_rest.state }}">
+                </div>
+                <div class="form-group">
+                    <label for="zip">Zip</label>
+                    <input type="text" class="form-control" id="zip" name="zip_" value="{{ edit_rest.zip_ }}">
+                </div>
+                <div class="form-group">
+                    <label for="website">Website</label>
+                    <input type="website" class="form-control" id="website" name="website" value="{{ edit_rest.website }}">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="phone" class="form-control" id="phone" name="phone" value="{{ edit_rest.phone }}">
+                </div>
+                <div class="form-group">
+                    <label for="owner">Owner</label>
+                    <input type="text" class="form-control" id="owner" name="owner" value="{{ edit_rest.owner }}">
+                </div>
+                <div class="form-group">
+                    <label for="yrs_open">Yrs Open</label>
+                    <input type="text" class="form-control" id="yrs_open" name="yrs_open" value="{{ edit_rest.yrs_open }}">
+                </div>
+
+
+
+                <input type="submit" value="Edit">
+                <a href="{{ url_for('home.show_places') }}">cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

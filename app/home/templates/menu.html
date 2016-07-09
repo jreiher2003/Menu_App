@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block description %}{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('home.show_places') }}">back</a><br>
+<a href="{{ url_for('home.new_menu_item', place_id=place.id) }}">create new menu item</a><br><br>
+		<h2>{{ place.name }}</h2>
+<div class="container">
+{% if menuitems %}
+	<div class="row">
+		<div class="col-md-3 col-md-offset-1">
+			<h2>Appetizers</h2>
+				{% for menu in menuitems %}
+					{% if menu.course == "Appetizer" %}
+						<div class="menu-item">
+						   <!--  {{ menu.course }}<br>
+							{{ menu.id }}<br> -->
+							{{ menu.name }}<br>
+							{{ menu.description }}<br>
+							{{ menu.price }}<br>
+							<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
+							<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+						</div>
+					{% endif %}
+				{% endfor %}
+		</div> <!-- col-md-4 -->
+		<div class="col-md-3 col-md-offset-1">
+			<h2>Entrees</h2>
+				{% for menu in menuitems %}
+					{% if menu.course == "Entree" %}
+						<div class="menu-item">
+						   <!--  {{ menu.course }}<br>
+							{{ menu.id }}<br> -->
+							{{ menu.name }}<br>
+							{{ menu.description }}<br>
+							{{ menu.price }}<br>
+							<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
+							<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+						</div>
+					{% endif %}
+				{% endfor %}
+		</div> <!-- col-md-4 -->
+		<div class="col-md-3 col-md-offset-1">
+			<h2>Desserts</h2>
+				{% for menu in menuitems %}
+					{% if menu.course == "Dessert" %}
+						<div class="menu-item">
+						   <!--  {{ menu.course }}<br>
+							{{ menu.id }}<br> -->
+							{{ menu.name }}<br>
+							{{ menu.description }}<br>
+							{{ menu.price }}<br>
+							<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
+							<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+						</div>
+					{% endif %}
+				{% endfor %}
+		</div> <!-- col-md-4 -->
+		<div class="col-md-3 col-md-offset-1">
+			<h2>Beverage</h2>
+				{% for menu in menuitems %}
+					{% if menu.course == "Beverage" %}
+						<div class="menu-item">
+						   <!--  {{ menu.course }}<br>
+							{{ menu.id }}<br> -->
+							{{ menu.name }}<br>
+							{{ menu.description }}<br>
+							{{ menu.price }}<br>
+							<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
+							<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+						</div>
+					{% endif %}
+				{% endfor %}
+		</div> <!-- col-md-4 -->
+{% else %}
+		<p>You currently have no menu items</p>
+{% endif %}
+	</div> <!-- row -->
+</div> <!-- container -->
+{% endblock %}
+				

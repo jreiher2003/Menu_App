@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Delete Restaurant{% endblock %}
+{% block content %}
+delete restaurant template {{ place_id }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Delete {{ delete_rest.name }}</h1>
+            <form action="" method="post">
+                <input class="btn btn-danger" type="submit" value="Delete Item">
+                <a href="{{ url_for('home.show_places') }}">cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

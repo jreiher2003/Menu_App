@@ -18,4 +18,5 @@ class RegistrationForm(Form):
 class LoginForm(Form):
     email = EmailField("Email Address", [Required()])
     password = PasswordField("Password", [Required()])
+    remember_me = BooleanField('Remember Me')
     

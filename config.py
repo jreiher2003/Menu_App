@@ -5,6 +5,8 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SECRET_KEY = os.environ['SECRET_KEY']
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    #CLIENT_ID = os.environ['CLIENT_ID']
+    # CLIENT_SECRET = os.environ['CLIENT_SECRET']
     SECURITY_REGISTERABLE = True
     SECURITY_PASSWORD_HASH = "bcrypt"
     SECURITY_PASSWORD_SALT = b"test"

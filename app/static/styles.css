@@ -7,3 +7,11 @@ body {}
     height: 200px;
     background-color: #777;
 }
+.front-page {
+    min-height: 15px;
+    max-height: 15px;
+}
+.signin-border {
+    border: 1px solid #eee;
+    padding: 30px;
+}

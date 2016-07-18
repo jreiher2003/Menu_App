@@ -19,8 +19,10 @@
 							{{ menu.name }}<br>
 							{{ menu.description }}<br>
 							{{ menu.price }}<br>
-							<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
-							<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+							{% if current_user.id == place.user_id %}
+								<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
+								<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+							{% endif %}
 						</div>
 					{% endif %}
 				{% endfor %}
@@ -35,8 +37,10 @@
 							{{ menu.name }}<br>
 							{{ menu.description }}<br>
 							{{ menu.price }}<br>
-							<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
-							<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+							{% if current_user.id == place.user_id %}
+								<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
+								<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+							{% endif %}
 						</div>
 					{% endif %}
 				{% endfor %}
@@ -51,8 +55,10 @@
 							{{ menu.name }}<br>
 							{{ menu.description }}<br>
 							{{ menu.price }}<br>
-							<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
-							<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+							{% if current_user.id == place.user_id %}
+								<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
+								<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+							{% endif %}
 						</div>
 					{% endif %}
 				{% endfor %}
@@ -67,8 +73,10 @@
 							{{ menu.name }}<br>
 							{{ menu.description }}<br>
 							{{ menu.price }}<br>
-							<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
-							<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+							{% if current_user.id == place.user_id %}
+								<a href="{{ url_for('home.edit_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Edit</a>
+								<a href="{{ url_for('home.delete_menu_item', place_id=menu.place.id, menu_id=menu.id) }}">Delete</a>
+							{% endif %}
 						</div>
 					{% endif %}
 				{% endfor %}

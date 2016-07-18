@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="{% block description %}{% endblock %}">
     <meta name="author" content="Jeffrey Reiher">
+    <meta name="google-signin-client_id" content="61683668295-cchsh7fkgkkvad14lsl49gcogftsor3l.apps.googleusercontent.com">
     <title>{% block title %}{% endblock %}</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300&subset=latin-ext' rel='stylesheet' type='text/css'>
@@ -27,6 +28,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				{% if current_user.is_active %}
+					<li><a href="#">{{ current_user.id }}</a></li>
 					<li><a href="#">{{ current_user.username }}</a></li>
 				{% else %}
 			        <li><a href="{{ url_for('users.signup') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -54,5 +56,6 @@
 		<!-- </div> -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
 </body>
 </html>

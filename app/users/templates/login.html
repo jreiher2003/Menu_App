@@ -1,29 +1,195 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3>Sign In</h3>
+<script>
+//===========================================================================
+//================= start facebook login ====================================
+//===========================================================================
+        // initialize and setup facebook js sdk
+        window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '234501906943166',
+              cookie     : true,
+              xfbml      : true,
+              version    : 'v2.5'
+            });
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    document.getElementById('status').innerHTML = 'We are connected.';
+                    document.getElementById('login').style.visibility = 'hidden';
+                } else if (response.status === 'not_authorized') {
+                    document.getElementById('status').innerHTML = 'please log into menu-app.'
+                } else {
+                    document.getElementById('status').innerHTML = 'Please log into Facebook.';
+                }
+            });
+        };
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        
+        // login with facebook with extra permissions
+        function login() {
+            FB.login(function(response) {
+                if (response.status === 'connected') {
+                    document.getElementById('status').innerHTML = 'We are connected.';
+                    document.getElementById('login').style.visibility = 'hidden';
+                    // console.log(response.authResponse.accessToken);
+                    var access_token = response.authResponse.accessToken;
+                } else if (response.status === 'not_authorized') {
+                    document.getElementById('status').innerHTML = 'We are not logged in.';
+                } else {
+                    document.getElementById('status').innerHTML = 'You are not logged into Facebook.';
+                }
+                
+                FB.api('/me', function(response) {
+                    console.log("State token + localhost:5001/fbconnect?state='{{STATE}}'");
+                    console.log("Access Token: " + access_token);
+                    console.log("Successful login for: " + response.name);
+                    $.ajax({
+                        type: "POST",
+                        url: "/fbconnect?state={{STATE}}",
+                        prcessData: false,
+                        data: access_token,
+                        contentType: "application/octet-stream; charset=utf-8",
+                        success: function(result) {
+                            if (result) {
+                                $("#result").html("Login Successful!<br>" + result + "<br>Redirecting...")
+                                setTimeout(function() {
+                                    window.location.href = '/restaurants';
+                                }, 4000);
+                            } else {
+                                $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                            }
+                        }
+                    });
+                });
+            });
+        }
+        
+        // getting basic user info
+        function getInfo() {
+            FB.api('/me', 'GET', {fields: 'first_name,last_name,name,id'}, function(response) {
+                document.getElementById('status').innerHTML = response.id;
+                console.log(response);
+            });
+        }
+//======================================================================================
+//============================ end facebook login ======================================
+//======================================================================================        
+</script>
+    
+{{STATE}}
 
-<form class="" action="" method="post">
-    {{ form.csrf_token }}
-    <input type="email" name="email" placeholder="email">
-    {% if form.email.errors %}
-        {% for error in form.email.errors %}
-            {{ error }}
-        {% endfor %}
-    {% endif %}
-    <input type="password" name="password" placeholder="password">
-    {% if form.password.errors %}
-        {% for error in form.password.errors %}
-            {{ error }}
-        {% endfor %}
-    {% endif %}
-    <input type="submit" value="sigin">
-</form>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <h3 class="text-center">Englewood Grub</h3>
+        <div class="signin-border">
+        <form class="" action="" method="post">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                <label class="sr-only" for="email">Email address</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        </div>
+                        <input class="form-control input-lg" type="email" name="email" id="email" placeholder="email">
+                    </div>
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endif %}
+            </div>
 
+            <div class="form-group">
+                <label class="sr-only" for="password">Password</label>
+                    <div class="input-group">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></div>
+                        <input class="form-control input-lg" type="password" name="password" placeholder="password">
+                    </div>
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.remember_me }}&nbsp; {{ form.remember_me.label }}
+                <a class="pull-right" href="#">Forgot your password?</a>
+            </div>
+            <div class="form-group text-center">
+                <input class="btn btn-success" type="submit" value="Log In">
+            </div>
+        </form>
+        <hr>
+        <div class="text-center">
+            <p class="text-small text-muted">or connect with</p>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <fb:login-button scope="public_profile,email" onlogin="login()" id="login">
+                    <a href='javascript:login()'>Facebook</a>
+                </fb:login-button>
+            </div>
+            <div class="col-md-6 text-center">
+                <div id="signinButton">
+                    <span class="g-signin"
+                        data-scope="profile openid email"
+                        data-clientid="61683668295-cchsh7fkgkkvad14lsl49gcogftsor3l.apps.googleusercontent.com"
+                        data-redirecturi="postmessage"
+                        data-accesstype="offline"
+                        data-cookiepolicy="single_host_origin"
+                        data-callback="signInCallBack"
+                        data-approvalprompt="force">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+         <p class="small text-center">Don't have an account yet?&nbsp;&nbsp;<a href="{{ url_for('users.signup') }}">create an account</a></p>
+        </div>
+    </div>
+    </div>
+</div>
 <br>
 <br>
 <br>
 <br>
+<div id="result"></div>
+<div id="status"></div>
+<button onclick="getInfo()">Get Info</button>
 
+
+<script>
+function signInCallBack(authResult) {
+    if (authResult['code']) {
+        $('#signinButton').attr('style', 'display: none');
+        $.ajax({
+            type: 'POST',
+            url: '/gconnect?state={{STATE}}',
+            processData: false,
+            contentType: 'application/octet-stream; charset=utf-8',
+            data: authResult['code'],
+            success: function(result) {
+                if (result) {
+                    $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
+                    setTimeout(function() {
+                        window.location.href = "/restaurants";
+                    }, 4000);
+                } else if (authResult['error']) {
+                    console.log('There was an error: ' + authResult['error']);
+                } else {
+                    $('#result').html('Failed to make a server-side call Check your configuration and console.');
+                }
+            }
+        })
+    }
+}
+</script>
 
 {% endblock %}

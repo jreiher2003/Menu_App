@@ -21,7 +21,7 @@ from app.home.views import home_blueprint
 app.register_blueprint(home_blueprint)
 
 
-from app.models import User, Place, Menu
+from app.models import Users, Place, Menu
 
 #user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 #security = Security(app, user_datastore) 
@@ -34,4 +34,4 @@ login_manager.login_message_category = 'info'
 # loads users info from db and stores it in a session
 @login_manager.user_loader 
 def load_user(user_id):
-    return User.query.filter(User.id == int(user_id)).first()
+    return Users.query.filter(Users.id == int(user_id)).first()

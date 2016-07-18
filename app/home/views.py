@@ -1,6 +1,7 @@
 from app import app,db # pragma: no cover
 from app.models import Place, Menu # pragma: no cover
 from flask import Blueprint, render_template, request, url_for, redirect, flash # pragma: no cover
+from flask import session as login_session
 from flask_login import current_user, login_required
 import us # pragma: no cover 
 
@@ -17,6 +18,8 @@ def show_places():
 @home_blueprint.route("/restaurant/new", methods=["GET", "POST"])
 @login_required
 def new_place():
+	# if 'username' not in login_session:
+	# 	return redirect("/login2")
 	states = us.states.STATES 
 	if request.method == "POST":
 		new = Place(
@@ -29,7 +32,7 @@ def new_place():
 			phone=request.form["phone"],
 			owner=request.form["owner"],
 			yrs_open=request.form["yrs_open"],
-			user_id=current_user.id
+			user_id=login_session['user_id']
 			)
 		db.session.add(new)
 		db.session.commit()
@@ -98,7 +101,7 @@ def new_menu_item(place_id):
 			description = request.form["description"],
 			price = request.form["price"],
 			place_id = place_id,
-			user_id = current_user.id 
+			user_id = login_session['user_id'] 
 			)
 		db.session.add(new_menu)
 		db.session.commit()
@@ -113,10 +116,14 @@ def new_menu_item(place_id):
 def edit_menu_item(place_id,menu_id):
 	edit_menu = Menu.query.filter_by(id=menu_id).one()
 	if request.method == "POST":
-		edit_menu.name = request.form["name"]
-		edit_menu.course = request.form["course"]
-		edit_menu.description = request.form["description"]
-		edit_menu.price = request.form["price"]
+		if request.form["name"]:
+			edit_menu.name = request.form["name"]
+		if request.form['course']:
+			edit_menu.course = request.form["course"]
+		if request.form['description']:
+			edit_menu.description = request.form["description"]
+		if request.form['price']:
+			edit_menu.price = request.form["price"]
 		edit_menu.last_edit = current_user.id
 		db.session.add(edit_menu)
 		db.session.commit()

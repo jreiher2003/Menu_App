@@ -3,7 +3,9 @@ from app import db, bcrypt # pragma: no cover
 from slugify import slugify # pragma: no cover
 
 
-class User(db.Model):
+class Users(db.Model):
+    __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String)
     email = db.Column(db.String(255), unique=True)
@@ -11,11 +13,11 @@ class User(db.Model):
     avatar = db.Column(db.String)
     created_at = db.Column(db.DateTime(),  default=datetime.datetime.now())
 
-    def __init__(self, username, email, password, avatar):
-        self.username = username
-        self.email = email 
-        self.password = bcrypt.generate_password_hash(password)
-        self.avatar = avatar
+    # def __init__(self, username, email, password, avatar):
+    #     self.username = username
+    #     self.email = email 
+    #     self.password = bcrypt.generate_password_hash(password)
+    #     self.avatar = avatar
 
     def __repr__(self):
         return "<username-{}".format(self.username)
@@ -56,12 +58,12 @@ class Place(db.Model):
     phone = db.Column(db.String)
     owner = db.Column(db.String)
     yrs_open = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    users = db.relationship("User")
-    last_edit = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    users = db.relationship("Users")
+    date_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
+    date_modified = db.Column(db.DateTime,  default=datetime.datetime.now(),
+                                       onupdate=datetime.datetime.now())
     
-
-
     @property 
     def serialize(self):
         return {
@@ -95,9 +97,11 @@ class Menu(db.Model):
     price = db.Column(db.String(8))
     place_id = db.Column(db.Integer, db.ForeignKey('place.id'))
     place = db.relationship(Place)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    users = db.relationship("User")
-    last_edit = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    users = db.relationship("Users")
+    date_created = db.Column(db.DateTime(),  default=datetime.datetime.now())
+    date_modified = db.Column(db.DateTime,  default=datetime.datetime.now(),
+                                       onupdate=datetime.datetime.now())
     
 
     @property 

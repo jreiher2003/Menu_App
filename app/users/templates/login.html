@@ -132,34 +132,39 @@
         </div>
         <div class="row">
             <div class="col-md-6 text-center">
-                <fb:login-button scope="public_profile,email" onlogin="login()" id="login">
-                    <a href='javascript:login()'>Facebook</a>
-                </fb:login-button>
+                <div class="form-group">
+                    <!-- <div class="fb-login-button" size="xlarge" scope="public_profile,email" onlogin="login()" id="login"></div> -->
+                    <fb:login-button size="large" scope="public_profile,email" onlogin="login()" id="login">
+                        <a class="btn btn-lg" href='javascript:login()'>---Sign in---</a>
+                    </fb:login-button>
+                </div>
             </div>
             <div class="col-md-6 text-center">
-                <div id="signinButton">
-                    <span class="g-signin"
-                        data-scope="profile openid email"
-                        data-clientid="61683668295-cchsh7fkgkkvad14lsl49gcogftsor3l.apps.googleusercontent.com"
-                        data-redirecturi="postmessage"
-                        data-accesstype="offline"
-                        data-cookiepolicy="single_host_origin"
-                        data-callback="signInCallBack"
-                        data-approvalprompt="force">
-                    </span>
+                <div class="form-group">
+                    <div id="signinButton">
+                        <span class="g-signin"
+                            data-scope="profile openid email"
+                            data-clientid="61683668295-cchsh7fkgkkvad14lsl49gcogftsor3l.apps.googleusercontent.com"
+                            data-redirecturi="postmessage"
+                            data-accesstype="offline"
+                            data-cookiepolicy="single_host_origin"
+                            data-callback="signInCallBack"
+                            data-approvalprompt="force">
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
+        <br>
+        <br>
+        
         <div class="form-group">
          <p class="small text-center">Don't have an account yet?&nbsp;&nbsp;<a href="{{ url_for('users.signup') }}">create an account</a></p>
         </div>
     </div>
     </div>
 </div>
-<br>
-<br>
-<br>
-<br>
+
 <div id="result"></div>
 <div id="status"></div>
 <button onclick="getInfo()">Get Info</button>
@@ -168,7 +173,7 @@
 <script>
 function signInCallBack(authResult) {
     if (authResult['code']) {
-        $('#signinButton').attr('style', 'display: none');
+        // $('#signinButton').attr('style', 'display: none');
         $.ajax({
             type: 'POST',
             url: '/gconnect?state={{STATE}}',

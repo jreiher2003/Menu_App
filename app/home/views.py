@@ -18,8 +18,6 @@ def show_places():
 @home_blueprint.route("/restaurant/new", methods=["GET", "POST"])
 @login_required
 def new_place():
-	# if 'username' not in login_session:
-	# 	return redirect("/login2")
 	states = us.states.STATES 
 	if request.method == "POST":
 		new = Place(

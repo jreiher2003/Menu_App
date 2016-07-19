@@ -1,6 +1,6 @@
-from flask.ext.testing import TestCase
+from flask_testing import TestCase
 from app import app, db, bcrypt
-from app.models import Place, Menu, User
+from app.models import Place, Menu, Users
 
 
 
@@ -30,9 +30,9 @@ class BaseTestCase(TestCase):
                             price="$1.00",
                             place_id=1))
         
-        db.session.add(User(username="Jeffrey",
+        db.session.add(Users(username="Jeffrey",
                             email="jeffreiher@gmail.com",
-                            password="password",
+                            password=bcrypt.generate_password_hash("password"),
                             avatar="picofjeff.jpg"))
 
         

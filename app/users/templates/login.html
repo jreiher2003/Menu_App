@@ -83,8 +83,6 @@
 //======================================================================================        
 </script>
     
-{{STATE}}
-
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
         <h3 class="text-center">Englewood Grub</h3>
@@ -173,7 +171,6 @@
 <script>
 function signInCallBack(authResult) {
     if (authResult['code']) {
-        // $('#signinButton').attr('style', 'display: none');
         $.ajax({
             type: 'POST',
             url: '/gconnect?state={{STATE}}',

@@ -13,12 +13,6 @@ class Users(db.Model):
     avatar = db.Column(db.String)
     created_at = db.Column(db.DateTime(),  default=datetime.datetime.now())
 
-    # def __init__(self, username, email, password, avatar):
-    #     self.username = username
-    #     self.email = email 
-    #     self.password = bcrypt.generate_password_hash(password)
-    #     self.avatar = avatar
-
     def __repr__(self):
         return "<username-{}".format(self.username)
 

@@ -69,15 +69,10 @@ import json
 from flask import make_response  
 import requests 
 from config import BaseConfig
-
 import os
-# here = os.path.dirname(__file__)
-# client_secrets = os.path.join(here, 'client_secrets.json')
-# print type(client_secrets)
-# os.path.join(os.path.dirname(__file__), 
+
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
-# APPLICATION_NAME = "Restaurant Menu Application"
 
 
 @users_blueprint.route("/login2", methods=["GET","POST"])
@@ -156,25 +151,12 @@ def gconnect():
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
-    # user = Users.query.filter_by(email=login_session['email']).first()
-    # if user is not None:
-    #     login_user(user)
-    # else:
-    #     user = Users(
-    #         username=login_session['username'], 
-    #         email=login_session['email'],
-    #         )
-    #     db.session.add(user)
-    #     db.session.commit()
-    #     login_user(user)
-
     # see if user exists
     user_id = get_user_id(login_session['email'])
     if not user_id:
         user_id = create_user(login_session)
     login_session['user_id'] = user_id
 
-    
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
@@ -187,16 +169,12 @@ def gconnect():
     return output
 
 @users_blueprint.route("/gdisconnect")
-# @login_required
 def gdisconnect():
     try:
         access_token = login_session['access_token']
     except KeyError:
-        # flash("Already logged out", "info")
-        # return redirect(url_for('home.show_places'))
-        response = make_response(json.dumps('You allready successfully disconnected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
+        flash("Already logged out", "info")
+        return redirect(url_for('home.show_places'))
     print 'In gdisconnect access token is %s', access_token
     print 'User name is: ' 
     print login_session['username']
@@ -245,7 +223,6 @@ def fb_connect():
         return response 
     access_token = request.data
     print "access token received %s " % access_token
-    # os.path.join(os.path.dirname(__file__),
     fb_secrets = json.loads(open('fb_client_secrets.json', 'r').read())
     app_secret = fb_secrets['web']['app_secret']
     app_id = fb_secrets['web']['app_id']
@@ -301,7 +278,12 @@ def fb_connect():
 
 @app.route("/fbdisconnect")
 def dbdisconnect():
-    facebook_id = login_session["facebook_id"]
+    try:
+        facebook_id = login_session["facebook_id"]
+    except KeyError:
+        flash("Already logged out", "info")
+        return redirect(url_for('home.show_places'))
+    
     url = "https://graph.facebook.com/%s/permissions" % facebook_id 
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]

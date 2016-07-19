@@ -20,3 +20,9 @@ class LoginForm(Form):
     password = PasswordField("Password", [Required()])
     remember_me = BooleanField('Remember Me')
     
+class NewRestaurant(Form):
+    pass
+
+class NewMenuItem(Form):
+    pass 
+

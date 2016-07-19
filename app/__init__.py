@@ -1,8 +1,7 @@
 import os
 from flask import Flask 
 from flask_sqlalchemy import SQLAlchemy 
-from flask_bcrypt import Bcrypt 
-#from flask.ext.security import Security, SQLAlchemyUserDatastore 
+from flask_bcrypt import Bcrypt  
 from flask_login import LoginManager 
 
 app = Flask(__name__) 
@@ -20,11 +19,7 @@ app.register_blueprint(api_blueprint)
 from app.home.views import home_blueprint
 app.register_blueprint(home_blueprint)
 
-
 from app.models import Users, Place, Menu
-
-#user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-#security = Security(app, user_datastore) 
 
 login_manager.login_view = "users.login"
 login_manager.login_message = u'You need to login first!'

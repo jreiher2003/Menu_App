@@ -1,9 +1,17 @@
+import os
+import random, string 
+import requests 
+import json 
+import httplib2
 from app import app, bcrypt, db
-from flask import Blueprint, render_template, url_for, request, flash, redirect
-from flask_login import login_required, login_user, logout_user, current_user
 from app.forms import RegistrationForm, LoginForm
 from app.models import Users
-
+from app.utils import create_user, get_user_info, get_user_id 
+from flask import Blueprint, render_template, url_for, request, flash, redirect, make_response
+from flask_login import login_required, login_user, logout_user, current_user
+from flask import session as login_session 
+from oauth2client.client import FlowExchangeError 
+from oauth2client.client import flow_from_clientsecrets
 
 users_blueprint = Blueprint("users", __name__, template_folder="templates") 
 
@@ -60,26 +68,8 @@ def signup():
 ##################################################################
 ################# google+ signin #################################
 ##################################################################
-from flask import session as login_session 
-import random, string 
-from oauth2client.client import flow_from_clientsecrets
-from oauth2client.client import FlowExchangeError 
-import httplib2
-import json 
-from flask import make_response  
-import requests 
-from config import BaseConfig
-import os
-
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
-
-
-@users_blueprint.route("/login2", methods=["GET","POST"])
-def showLogin():
-    state = "".join(random.choice(string.ascii_uppercase) for i in xrange(32))
-    login_session['state'] = state 
-    return render_template('google_login.html', STATE=state)
 
 @users_blueprint.route("/gconnect", methods=["POST"])
 def gconnect():
@@ -199,7 +189,6 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     else:
-    
         response = make_response(json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -207,13 +196,6 @@ def gdisconnect():
 #######################################################################################
 ###################  facebook login  ##################################################
 #######################################################################################
-from app.utils import *
-
-@users_blueprint.route("/login3", methods=["GET","POST"])
-def show_fb_login():
-    state = "".join(random.choice(string.ascii_uppercase) for i in xrange(32))
-    login_session['state'] = state 
-    return render_template('fb_login.html', STATE=state)
 
 @users_blueprint.route("/fbconnect", methods=["POST"])
 def fb_connect():
@@ -255,7 +237,7 @@ def fb_connect():
     h = httplib2.Http()
     result3 = h.request(url, 'GET')[1]
     data1 = json.loads(result3)
-
+    
     login_session['picture'] = data1["data"]["url"]
 
     # see if user exists
@@ -267,12 +249,10 @@ def fb_connect():
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
-
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
     output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-
     flash("Now logged in as %s<br><img src='%s'>" % (login_session['username'], login_session['picture']))
     return output
 
@@ -283,7 +263,6 @@ def dbdisconnect():
     except KeyError:
         flash("Already logged out", "info")
         return redirect(url_for('home.show_places'))
-    
     url = "https://graph.facebook.com/%s/permissions" % facebook_id 
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]

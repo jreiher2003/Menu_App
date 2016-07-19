@@ -33,15 +33,6 @@ def login():
             return redirect(url_for("users.login"))
     return render_template("login.html", form=form, STATE=state, error=error)
 
-@users_blueprint.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    # session.pop('logged_in', None)
-    flash("You just logged out", "warning")
-    referer = request.headers.get("Referer")
-    return redirect(referer or url_for("home.show_places"))
-
 @users_blueprint.route("/signup", methods=["GET", "POST"])
 def signup():
     error = None
@@ -64,6 +55,27 @@ def signup():
         flash('Thanks for registering')
         return redirect(referer or url_for('home.show_places'))
     return render_template('signup.html', form=form, error=error)
+
+@users_blueprint.route("/logout")
+def disconnect():
+    referer = request.headers.get("Referer")
+    print login_session
+    if "provider" in login_session:
+        if login_session['provider'] == 'google':
+            gdisconnect()
+            flash("you just logged out with google+")
+            return redirect(referer or url_for("home.show_places"))
+        if login_session['provider'] == 'facebook':
+            fbdisconnect()
+            flash("you just logged out with facebook")
+            return redirect(referer or url_for("home.show_places"))
+    elif "provider" not in login_session:
+        logout_user()
+        flash("You just logged out", "warning")
+        return redirect(referer or url_for("home.show_places"))
+    else:
+        flash("You weren't logged in")
+        return redirect(referer or url_for("home.show_places"))
 
 ##################################################################
 ################# google+ signin #################################
@@ -136,7 +148,7 @@ def gconnect():
 
     data = answer.json()
     
-    # login_session['provider'] = 'google'
+    login_session['provider'] = 'google'
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
@@ -158,13 +170,8 @@ def gconnect():
     print "done!"
     return output
 
-@users_blueprint.route("/gdisconnect")
 def gdisconnect():
-    try:
-        access_token = login_session['access_token']
-    except KeyError:
-        flash("Already logged out", "info")
-        return redirect(url_for('home.show_places'))
+    access_token = login_session['access_token']
     print 'In gdisconnect access token is %s', access_token
     print 'User name is: ' 
     print login_session['username']
@@ -180,11 +187,12 @@ def gdisconnect():
     print result
     if result['status'] == '200':
         del login_session['access_token'] 
+        del login_session['user_id']
         del login_session['gplus_id']
         del login_session['username']
         del login_session['email']
         del login_session['picture']
-        logout_user()
+        del login_session['provider']
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -224,7 +232,7 @@ def fb_connect():
 
     data = json.loads(result2)
     
-    # login_session['provider'] = 'facebook'
+    login_session['provider'] = 'facebook'
     login_session['username'] = data['name']
     login_session['email'] = data['email']
     login_session['facebook_id'] = data['id']
@@ -256,14 +264,10 @@ def fb_connect():
     flash("Now logged in as %s<br><img src='%s'>" % (login_session['username'], login_session['picture']))
     return output
 
-@app.route("/fbdisconnect")
-def dbdisconnect():
-    try:
-        facebook_id = login_session["facebook_id"]
-    except KeyError:
-        flash("Already logged out", "info")
-        return redirect(url_for('home.show_places'))
-    url = "https://graph.facebook.com/%s/permissions" % facebook_id 
+def fbdisconnect():
+    facebook_id = login_session["facebook_id"]
+    access_token = login_session['access_token']
+    url = "https://graph.facebook.com/%s/permissions?access_token=%s" % (facebook_id, access_token)
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]
     del login_session['username']
@@ -271,4 +275,8 @@ def dbdisconnect():
     del login_session['picture']
     del login_session['user_id']
     del login_session['facebook_id']
+    del login_session['access_token']
+    del login_session['provider']
     return "you have been logged out"
+
+

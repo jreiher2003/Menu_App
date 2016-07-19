@@ -52,29 +52,29 @@ def signup():
         db.session.add(user)
         db.session.commit()
         referer = request.headers.get("Referer")
-        flash('Thanks for registering')
+        flash('Thanks for registering',"info")
         return redirect(referer or url_for('home.show_places'))
     return render_template('signup.html', form=form, error=error)
 
 @users_blueprint.route("/logout")
-def disconnect():
+def logout():
     referer = request.headers.get("Referer")
     print login_session
     if "provider" in login_session:
         if login_session['provider'] == 'google':
             gdisconnect()
-            flash("you just logged out with google+")
+            flash("you just logged out with google+", "warning")
             return redirect(referer or url_for("home.show_places"))
         if login_session['provider'] == 'facebook':
             fbdisconnect()
-            flash("you just logged out with facebook")
+            flash("you just logged out with facebook", "warning")
             return redirect(referer or url_for("home.show_places"))
     elif "provider" not in login_session:
         logout_user()
         flash("You just logged out", "warning")
         return redirect(referer or url_for("home.show_places"))
     else:
-        flash("You weren't logged in")
+        flash("You weren't logged in", "warning")
         return redirect(referer or url_for("home.show_places"))
 
 ##################################################################

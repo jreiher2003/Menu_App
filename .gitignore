@@ -8,7 +8,7 @@ venv/
 *.bat
 coverage/
 *.log
-app/users/client_secrets.json
-app/users/fb_client_secrets.json
-app/users/secrets.tar
+client_secrets.json
+fb_client_secrets.json
+secrets.tar
 

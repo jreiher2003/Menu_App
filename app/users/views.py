@@ -74,8 +74,9 @@ import os
 # here = os.path.dirname(__file__)
 # client_secrets = os.path.join(here, 'client_secrets.json')
 # print type(client_secrets)
+# os.path.join(os.path.dirname(__file__), 
 CLIENT_ID = json.loads(
-    open(os.path.join(os.path.dirname(__file__), 'client_secrets.json'), 'r').read())['web']['client_id']
+    open('client_secrets.json', 'r').read())['web']['client_id']
 # APPLICATION_NAME = "Restaurant Menu Application"
 
 
@@ -95,7 +96,7 @@ def gconnect():
     # Obtain authorization code
     code = request.data
     try:
-        oauth_flow = flow_from_clientsecrets(os.path.join(os.path.dirname(__file__), 'client_secrets.json'), scope="")
+        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope="")
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
@@ -244,8 +245,8 @@ def fb_connect():
         return response 
     access_token = request.data
     print "access token received %s " % access_token
-
-    fb_secrets = json.loads(open(os.path.join(os.path.dirname(__file__), 'fb_client_secrets.json'), 'r').read())
+    # os.path.join(os.path.dirname(__file__),
+    fb_secrets = json.loads(open('fb_client_secrets.json', 'r').read())
     app_secret = fb_secrets['web']['app_secret']
     app_id = fb_secrets['web']['app_id']
     print "app id :",app_id

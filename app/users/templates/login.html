@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block title %}Login{% endblock %}
 {% block content %}
 
 <script>
@@ -121,7 +122,7 @@ function getInfo() {
                 <a class="pull-right" href="#">Forgot your password?</a>
             </div>
             <div class="form-group text-center">
-                <input class="btn btn-success" type="submit" value="Log In">
+                <button type="submit" class="btn btn-success btn-social btn-login">Log In</button>
             </div>
         </form>
         <hr>
@@ -131,15 +132,11 @@ function getInfo() {
         <div class="row">
             <div class="col-md-6 text-center">
                 <div class="form-group">
-                    <!-- <div class="fb-login-button" size="xlarge" scope="public_profile,email" onlogin="login()" id="login"></div> -->
-                    <fb:login-button size="large" scope="public_profile,email" onlogin="login()" id="login">
-                        <a class="btn btn-lg" href='javascript:login()'>---Sign in---</a>
-                    </fb:login-button>
+                    <button class="btn btn-facebook btn-social"  onclick="login()" id="login"><i class="fa fa-facebook" aria-hidden="true"></i>Facebook</button>
                 </div>
             </div>
             <div class="col-md-6 text-center">
-                <div class="form-group">
-                    <div id="signinButton">
+                <button class="btn btn-google btn-social">
                         <span class="g-signin"
                             data-scope="profile openid email"
                             data-clientid="61683668295-cchsh7fkgkkvad14lsl49gcogftsor3l.apps.googleusercontent.com"
@@ -148,9 +145,9 @@ function getInfo() {
                             data-cookiepolicy="single_host_origin"
                             data-callback="signInCallBack"
                             data-approvalprompt="force">
+                            <i class="fa fa-google" aria-hidden="true"></i>Google+
                         </span>
-                    </div>
-                </div>
+                </button>
             </div>
         </div>
         <br>

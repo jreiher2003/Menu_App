@@ -15,3 +15,36 @@ body {}
     border: 1px solid #eee;
     padding: 30px 30px 30px 30px;
 }
+.btn-social {
+    display: inline-block;
+    padding: 0;
+    height: 40px;
+    width: 100px;
+    border: none;
+    padding-right: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    text-align: left;
+}
+.btn-social i {
+    background: rgba(0,0,0,0.075);
+    display: inline-block;
+    padding: 0 4px 0 8px;
+    margin-right: 8px;
+    border-radius: 5px 0 0 5px;
+    top: 0;
+    line-height: 40px;
+}
+.btn-facebook, .btn-facebook:hover {
+    background-color: #3b5998;
+    color: #fff;
+}
+.btn-google, .btn-google:hover {
+    background-color: #DD4B39;
+    color: #fff;
+}
+.btn-login, .btn-login:hover {
+    text-align: center;
+    background-color: #5cb85c;
+    margin-right: 0;
+    padding-right: 0;
+}

@@ -35,6 +35,8 @@ def login():
 
 @users_blueprint.route("/signup", methods=["GET", "POST"])
 def signup():
+    state = "".join(random.choice(string.ascii_uppercase) for i in xrange(32))
+    login_session['state'] = state
     error = None
     form = RegistrationForm(request.form)
     if form.validate_on_submit():
@@ -43,7 +45,6 @@ def signup():
             user = Users(
                 username=form.username.data, 
                 email=form.email.data,
-                avatar=form.avatar.data,
                 password=bcrypt.generate_password_hash(form.password.data)
                 )
         else:
@@ -54,7 +55,7 @@ def signup():
         referer = request.headers.get("Referer")
         flash('Thanks for registering',"info")
         return redirect(referer or url_for('home.show_places'))
-    return render_template('signup.html', form=form, error=error)
+    return render_template('signup.html', form=form, error=error, STATE=state)
 
 @users_blueprint.route("/logout")
 def logout():

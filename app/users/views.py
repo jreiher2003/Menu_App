@@ -159,17 +159,8 @@ def gconnect():
     if not user_id:
         user_id = create_user(login_session)
     login_session['user_id'] = user_id
-
-    output = ''
-    output += '<h1>Welcome, '
-    output += login_session['username']
-    output += '!</h1>'
-    output += '<img src="'
-    output += login_session['picture']
-    output += ' " style = "width: 30px; height: 30px;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;"> '
-    flash("you are now logged in as %s<br><img src='%s'><br><p>%s</p>%s" % (login_session['username'], login_session['picture'], login_session['email'], login_session['user_id']))
-    print "done!"
-    return output
+    flash("Now logged in as %s &nbsp;<img style='width:30px;height:30px;' src='%s'>" % (login_session['username'], login_session['picture']))
+    return render_template("restaurants.html", login_session=login_session)
 
 def gdisconnect():
     access_token = login_session['access_token']

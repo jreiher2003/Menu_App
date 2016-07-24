@@ -2,6 +2,9 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 
+<div id="status"></div>
+<button onclick="getInfo()">Get Info</button>
+
 <script>
 //===========================================================================
 //================= start facebook login ====================================
@@ -16,8 +19,8 @@ window.fbAsyncInit = function() {
     });
     FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
-            document.getElementById('status').innerHTML = 'We are connected.';
-            document.getElementById('login').style.visibility = 'hidden';
+            document.getElementById('status').innerHTML = 'We are connected1.';
+            // document.getElementById('login').style.visibility = 'hidden';
         } else if (response.status === 'not_authorized') {
             document.getElementById('status').innerHTML = 'please log into menu-app.'
         } else {
@@ -37,8 +40,8 @@ window.fbAsyncInit = function() {
 function login() {
     FB.login(function(response) {
         if (response.status === 'connected') {
-            document.getElementById('status').innerHTML = 'We are connected.';
-            document.getElementById('login').style.visibility = 'hidden';
+            document.getElementById('status').innerHTML = 'We are connected2.';
+            // document.getElementById('login').style.visibility = 'hidden';
             // console.log(response.authResponse.accessToken);
             var access_token = response.authResponse.accessToken;
         } else if (response.status === 'not_authorized') {
@@ -59,17 +62,17 @@ FB.api('/me', function(response) {
         contentType: "application/octet-stream; charset=utf-8",
         success: function(result) {
             if (result) {
-                $("#result").html("Login Successful!<br>" + result + "<br>Redirecting...")
+                $("#result").html("Login Successful! &nbsp;" + result + "<br>Redirecting...")
                 setTimeout(function() {
                     window.location.href = '/restaurants';
-                }, 4000);
+                }, 2000);
             } else {
                 $('#result').html('Failed to make a server-side call. Check your configuration and console.');
             }
         }
+      });
     });
-});
-});
+  },{scope:['public_profile','email']});
 };
         
 // getting basic user info
@@ -86,6 +89,7 @@ function getInfo() {
     
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
+        <div id="result"></div>
         <h3 class="text-center">Englewood Grub</h3>
         <div class="signin-border">
         <form class="" action="" method="post">
@@ -160,9 +164,6 @@ function getInfo() {
     </div>
 </div>
 
-<div id="result"></div>
-<div id="status"></div>
-<button onclick="getInfo()">Get Info</button>
 
 
 <script>

@@ -26,12 +26,18 @@
 				<li><a href="#">Page 1</a></li>
 				<li><a href="#">Page 2</a></li>
 				<li><a href="#">Page 3</a></li>
+				<li><a href="{{ url_for('home.new_place') }}">Create New Restauarnt</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				{% if current_user.is_active %}
+					<li><a href="#">{{ current_user.username }}</a></li>
+					{% if current_user.avatar %}
+				    	<li><img class="nav-avatar" src="{{ current_user.avatar }}"></li>
+				    {% else %}
+				    	<li><img class="nav-avatar" src="http://www.bcphelp.com/images/profilePlaceholder.png"></li>
+				    {% endif %}
 					<li><a href="{{ url_for('users.logout') }}">logout</a></li>
 					<li><a href="#">{{ current_user.id }}</a></li>
-					<li><a href="#">{{ current_user.username }}</a></li>
 				{% else %}
 			        <li><a href="{{ url_for('users.signup') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
 			        <li><a href="{{ url_for('users.login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -39,15 +45,21 @@
 		    </ul>
 		</div>
 	</nav>
-	{% with messages = get_flashed_messages(with_categories=true) %}
-	  {% if messages %}
-	    <ul class="list-unstyled">
-	    {% for category, message in messages %}
-	      <li class="alert alert-{{ category }} alert-dismissible">{{ message | safe }}<a type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a></li>
-	    {% endfor %}
-	    </ul>
-	  {% endif %}
-	{% endwith %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				{% with messages = get_flashed_messages(with_categories=true) %}
+				  {% if messages %}
+				    <ul class="list-unstyled">
+				    {% for category, message in messages %}
+				      <li class="text-center alert alert-{{ category }} alert-dismissible">{{ message | safe }}<a type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></a></li>
+				    {% endfor %}
+				    </ul>
+				  {% endif %}
+				{% endwith %}
+			</div>
+		</div>
+	</div>
 	{% block content %}{% endblock %}
 		<!-- <div class="row"> -->
 	<footer class="footer">

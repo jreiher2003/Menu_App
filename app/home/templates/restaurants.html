@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Englewood Grub{% endblock %}
 {% block description %}{% endblock %}
-
 {% block content %}
-<a href="{{ url_for('home.new_place') }}">Create New Restauarnt</a><br><br>
-
-
 <div class="container">
     <div class="row">
+        <div class="col-md-8 col-md-offset-2">
         {% for place in all_places %}
-        <div class="col-md-3 ">
+        <div class="col-md-4">
             <div class="thumbnail">
                 <div class="row ">
                     <div class="col-md-4 pull-right front-page">
@@ -39,6 +36,6 @@
         </div>
         {% endfor %}
     </div>
+  </div>
 </div>
-
 {% endblock %}

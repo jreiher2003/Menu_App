@@ -48,3 +48,8 @@ body {}
     margin-right: 0;
     padding-right: 0;
 }
+.nav-avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}

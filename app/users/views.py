@@ -48,13 +48,13 @@ def signup():
                 password=bcrypt.generate_password_hash(form.password.data)
                 )
         else:
-            flash("That email account already exists! forgot your password? <a href='#'>Click Here</a>")
+            flash("That email account already exists! forgot your password? <a href='#'>Click Here</a>", "danger")
             return redirect(url_for('users.signup'))
         db.session.add(user)
         db.session.commit()
-        referer = request.headers.get("Referer")
-        flash('Thanks for registering',"info")
-        return redirect(referer or url_for('home.show_places'))
+        login_user(user, remember=True)
+        flash('Welcome, <b>%s</b> thanks for registering!' % user.username,"info")
+        return redirect(url_for('home.show_places'))
     return render_template('signup.html', form=form, error=error, STATE=state)
 
 @users_blueprint.route("/logout")
@@ -166,8 +166,8 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("you are now logged in as %s<br><img src='%s'><br><h2>%s</h2>%s" % (login_session['username'], login_session['picture'], login_session['email'], login_session['user_id']))
+    output += ' " style = "width: 30px; height: 30px;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;"> '
+    flash("you are now logged in as %s<br><img src='%s'><br><p>%s</p>%s" % (login_session['username'], login_session['picture'], login_session['email'], login_session['user_id']))
     print "done!"
     return output
 
@@ -255,15 +255,8 @@ def fb_connect():
         user_id = create_user(login_session)
     login_session['user_id'] = user_id
 
-    output = ''
-    output += '<h1>Welcome, '
-    output += login_session['username']
-    output += '!</h1>'
-    output += '<img src="'
-    output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("Now logged in as %s<br><img src='%s'>" % (login_session['username'], login_session['picture']))
-    return output
+    flash("Now logged in as %s &nbsp;<img style='width:30px;height:30px;' src='%s'>" % (login_session['username'], login_session['picture']))
+    return render_template("restaurants.html", login_session=login_session)
 
 def fbdisconnect():
     facebook_id = login_session["facebook_id"]
